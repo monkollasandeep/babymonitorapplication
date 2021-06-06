@@ -1,64 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
 import styles from "./AddUser.module.css";
+import ErrorModal from "../UI/ErrorModal";
+import Wrapper from "../Helpers/Wrapper";
 
 const AddUser = (props) => {
-  const [enteredUserName, setenteredUserName] =useState('')
-  const [enteredRealtion, setenteredRealtion] =useState('')
-  const [enteredAge, setenteredAge] =useState('')
-  const [enteredEmail, setenteredEmail] =useState('')
-  const [enteredContactno, setenteredContactno] =useState('')
+  const nameInputRef = useRef();
+  const realtionInputRef = useRef();
+  const ageInputRef = useRef();
+  const emailInputRef = useRef();
+  const contactnoInputRef = useRef();
+
+  const [error, setError] = useState();
   const addUserHandler = (event) => {
     event.preventDefault();
-    if (enteredUserName.trim().length === 0 || enteredRealtion.trim().length === 0 || enteredAge.trim().length === 0 || enteredEmail.trim().length === 0 || enteredContactno.trim().length === 0) {
-        return;
+    const enteredName = nameInputRef.current.value;
+    const enteredUserRealtion = nameInputRef.current.value;
+    const enteredUserAge = nameInputRef.current.value;
+    const enteredUserEmail = nameInputRef.current.value;
+    const enteredUserContactno = nameInputRef.current.value;
+    if (
+      enteredName.trim().length === 0 ||
+      enteredUserRealtion.trim().length === 0 ||
+      enteredUserAge.trim().length === 0 ||
+      enteredUserEmail.trim().length === 0 ||
+      enteredUserContactno.trim().length === 0
+    ) {
+      setError({
+        title: "Invalid Input",
+        message: "please enter a valid input",
+      });
+      return;
     }
-    if(+enteredAge < 1) {
-        return;
+    if (+enteredUserAge < 1) {
+      setError({ title: "Invalid Input", message: "Please enter a valid age" });
+      return;
     }
-    if(+enteredContactno < 1000000000) {
-        return;
+    if (+enteredUserContactno < 1000000000) {
+      setError({
+        title: "Invalid Input",
+        message: "Please enter a valid Contact No.",
+      });
+      return;
     }
-    props.onAddUser(enteredUserName, enteredRealtion, enteredAge, enteredEmail, enteredContactno);
-    setenteredUserName('');
-    setenteredRealtion('');
-    setenteredAge('');
-    setenteredEmail('');
-    setenteredContactno('');
+    props.onAddUser(
+      enteredName,
+      enteredUserRealtion,
+      enteredUserAge,
+      enteredUserEmail,
+      enteredUserContactno
+    );
+    nameInputRef.current.value = '';
+    ageInputRef.current.value = '';
+    realtionInputRef.current.value ='';
+    emailInputRef.current.value ='';
+    contactnoInputRef.current.value ='';
   };
 
-  const usernameChangeHandler = event => {
-    setenteredUserName(event.target.value)
-  };
-  const relationChangeHandler = event => {
-    setenteredRealtion(event.target.value)
-  };
-  const ageChangeHandler = event => {
-    setenteredAge(event.target.value)
-  };
-  const emailChangeHandler = event => {
-    setenteredEmail(event.target.value)
-  };
-  const contactnoChangeHandler = event => {
-    setenteredContactno(event.target.value)
+  const erroHandler = () => {
+    setError(null);
   };
   return (
-    <Card className={styles.input}>
-      <form onSubmit={addUserHandler}>
-        <label htmlFor="username">UserName</label>
-        <input id="username" type="text" value={enteredUserName} onChange={usernameChangeHandler}/>
-        <label htmlFor="relation">Relation</label>
-        <input id="relation" type="text" value={enteredRealtion} onChange={relationChangeHandler} />
-        <label htmlFor="age">Age(Years)</label>
-        <input id="age" type="number" value={enteredAge} onChange={ageChangeHandler}/>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={enteredEmail} onChange={emailChangeHandler}/>
-        <label htmlFor="contactno">Contact No</label>
-        <input id="contactno" type="number" value={enteredContactno} onChange={contactnoChangeHandler}/>
-        <Button type="submit">Add User</Button>
-      </form>
-    </Card>
+    <Wrapper>
+      {error && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onConfirm={erroHandler}
+        />
+      )}
+      <Card className={styles.input}>
+        <form onSubmit={addUserHandler}>
+          <label htmlFor="username">UserName</label>
+          <input id="username" type="text" ref={nameInputRef} />
+          <label htmlFor="relation">Relation</label>
+          <input id="relation" type="text" ref={realtionInputRef} />
+          <label htmlFor="age">Age(Years)</label>
+          <input id="age" type="number" ref={ageInputRef} />
+          <label htmlFor="email">Email</label>
+          <input id="email" type="text" ref={emailInputRef} />
+          <label htmlFor="contactno">Contact No</label>
+          <input id="contactno" type="number" ref={contactnoInputRef} />
+          <Button type="submit">Add User</Button>
+        </form>
+      </Card>
+    </Wrapper>
   );
 };
 

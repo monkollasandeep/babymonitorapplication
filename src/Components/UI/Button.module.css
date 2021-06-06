@@ -1,11 +1,10 @@
 .button {
   font: inherit;
-  border: 3px solid #fa9cf5;
-  background: #b5f1e2;
-  color: rgb(247, 52, 133);
+  border: 3px solid #301319;
+  background: #e3ebe9;
+  color: rgb(28, 81, 105);
   padding: 0.25rem 1rem;
   cursor: pointer;
-  box-shadow: 12px 12px 12px 12px rgb(145, 222, 241);
   border-radius: 12px;
   font-weight: bold;
   text-align: center;
