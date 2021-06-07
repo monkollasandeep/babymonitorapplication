@@ -16,10 +16,10 @@ const AddUser = (props) => {
   const addUserHandler = (event) => {
     event.preventDefault();
     const enteredName = nameInputRef.current.value;
-    const enteredUserRealtion = nameInputRef.current.value;
-    const enteredUserAge = nameInputRef.current.value;
-    const enteredUserEmail = nameInputRef.current.value;
-    const enteredUserContactno = nameInputRef.current.value;
+    const enteredUserRealtion = realtionInputRef.current.value;
+    const enteredUserAge = ageInputRef.current.value;
+    const enteredUserEmail = emailInputRef.current.value;
+    const enteredUserContactno = contactnoInputRef.current.value;
     if (
       enteredName.trim().length === 0 ||
       enteredUserRealtion.trim().length === 0 ||
